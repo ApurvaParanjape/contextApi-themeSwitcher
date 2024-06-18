@@ -1,24 +1,42 @@
 import logo from './logo.svg';
 import './App.css';
+import { ThemeProvider } from './contexts/Theme';
+import ThemeBtn from './components/ThemeBtn';
+import Card from './components/Card';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [mode, setMode] = useState("light")
+
+  const lightTheme = ()=>{
+    setMode("light")
+  }
+
+  const darkTheme = ()=>{
+    setMode("dark")
+  }
+
+  useEffect(()=>{
+    document.querySelector("html").classList.remove("light","dark")
+    document.querySelector("html").classList.add(mode)
+  },[mode])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider value={{mode, darkTheme, lightTheme}}>
+    
+<div className="flex flex-wrap min-h-screen items-center">
+                <div className="w-full">
+                    <div className="w-full max-w-sm mx-auto flex justify-end mb-4">
+                        <ThemeBtn/>
+                    </div>
+
+                    <div className="w-full max-w-sm mx-auto">
+                       <Card/>
+                    </div>
+                </div>
+            </div>
+
+    </ThemeProvider>
+
   );
 }
 
